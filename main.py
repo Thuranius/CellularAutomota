@@ -4,7 +4,7 @@ import random as r
 main = []
 sizeX = 120
 sizeY = 39
-numSmoothingPasses = 1000
+numSmoothingPasses = 100
 smoothNum = .4
 
 # initial map setup
@@ -14,11 +14,14 @@ for x in range(sizeX):
         main[x].append(r.randint(0,1))
 
 def smoothPass(map, sizeX, sizeY, soothNum):
-    r = 2
+    r = 3
+    newMap = []
     for x in range(sizeX):
+        newMap.append([])
         for y in range(sizeY):
             count = 0
             countDif = 0
+            newMap[x].append(map[x][y])
             for i in range((r*-1)+1,r):
                 for j in range((r*-1)+1,r):
                     if i+x > -1 and j+y > -1:
@@ -34,10 +37,10 @@ def smoothPass(map, sizeX, sizeY, soothNum):
             countPer = countDif/count
             if countPer < smoothNum:
                 if map[x][y] == 0:
-                    map[x][y] = 1
+                    newMap[x][y] = 1
                 else:
-                    map[x][y] = 0
-    return map
+                    newMap[x][y] = 0
+    return newMap
 
 def cleanUp(map, sizeX, sizeY):
     for x in range(sizeX):
